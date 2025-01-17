@@ -40,11 +40,13 @@ void	here_doc_input(char **argv, int *pipefd)
 		if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)
 		{
 			free(line);
-			exit(0);
+			break ;// exit(0); // break and close
 		}
 		ft_putstr_fd(line, pipefd[1]); // send it to parent frought pipe
 		free(line);
 	}
+  close(pipefd[1]); // close write end of pipe
+  exit(0);
 }
 
 void	here_doc(char **argv)
@@ -58,15 +60,14 @@ void	here_doc(char **argv)
 	if (pid == -1)
 		exit(1);
 	if (pid == 0) // Child process
-	{	here_doc_input(argv, pipefd);  // Input stream should be from std in
-		close(pipefd[0]);
-		exit (0);
+	{	
+    here_doc_input(argv, pipefd);  // Input stream should be from std in
 	}
 	else		// Parent process
 	{
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
 		close(pipefd[1]);
+    dup2(pipefd[0], 0);
+		close(pipefd[0]); // NEW
 		wait(NULL);
 	}
 }
