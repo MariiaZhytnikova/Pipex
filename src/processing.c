@@ -120,3 +120,16 @@ void	parent(int *pipefd, int pid_one, int pid_two)
 	// 	printf("Child 2 exited with status %d\n", WEXITSTATUS(status2));
 	// exit(status2 >> 8 & 255);
 }
+
+    // Wait for both child processes
+    if (waitpid(pid_one, &status1, 0) == -1)
+        handle_error("./pipex: Waitpid failed", "", 1);
+    if (waitpid(pid_two, &status2, 0) == -1)
+        handle_error("./pipex: Waitpid failed", "", 1);
+
+    // Check exit statuses and exit accordingly
+    if (WIFEXITED(status1) && WIFEXITED(status2)) {
+        exit(WEXITSTATUS(status1) == 0 ? WEXITSTATUS(status2) : WEXITSTATUS(status1));
+    } else {
+        exit(1); // If any child did not exit normally
+    }
