@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/84e2b236-69ef-4eae-a9d6-6f24ad3516f1)
+
 # Pipex
 This project will let you discover in detail a UNIX mechanism that you already know by using it in your program.
 
