@@ -133,3 +133,4 @@ void	parent(int *pipefd, int pid_one, int pid_two)
     } else {
         exit(1); // If any child did not exit normally
     }
+1. Signal Handling: Consider implementing signal handling for SIGCHLD to automatically reap child processes when they terminate. This can help prevent zombies without requiring explicit wait() calls.
