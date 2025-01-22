@@ -6,7 +6,7 @@
 #    By: mzhitnik <mzhitnik@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/04 15:05:17 by mzhitnik          #+#    #+#              #
-#    Updated: 2025/01/14 11:55:56 by mzhitnik         ###   ########.fr        #
+#    Updated: 2025/01/22 11:58:24 by mzhitnik         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,7 @@ OBJS_PATH = ./obj
 LIBFT_PATH = ./libft
 
 LIBFT = $(LIBFT_PATH)/libft.a
-SRCS = $(SRCS_PATH)/main.c $(SRCS_PATH)/parce_args.c $(SRCS_PATH)/args_check.c \
-	$(SRCS_PATH)/mapping.c $(SRCS_PATH)/push_swap.c \
-	$(SRCS_PATH)/moves_push_swap.c $(SRCS_PATH)/moves_rotate.c \
-	$(SRCS_PATH)/chunk_utils.c $(SRCS_PATH)/sort_utils.c $(SRCS_PATH)/costs.c
+SRCS = $(SRCS_PATH)/main.c $(SRCS_PATH)/utils.c $(SRCS_PATH)/errors.c $(SRCS_PATH)/processing.c
 OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJS_PATH)/%.o)
 
 all: $(NAME)
