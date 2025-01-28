@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzhitnik <mzhitnik@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:55:20 by mzhitnik          #+#    #+#             */
-/*   Updated: 2025/01/28 16:23:36 by mzhitnik         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:11:30 by mzhitnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	read_and_write(char *file_name, int act)
 {
@@ -21,15 +21,20 @@ int	read_and_write(char *file_name, int act)
 		fd = open(file_name, O_RDONLY);
 		if (access(file_name, F_OK) == 0 && access(file_name, R_OK) != 0)
 			handle_err("./pipex: permission denied: ", file_name, 1);
+		if (fd < 0)
+			handle_err("./pipex: no such file or directory: ", file_name, 127);
 	}
-	else
+	if (act == 1 || act == 2)
 	{
-		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (access(file_name, F_OK) == 0 && access(file_name, W_OK) != 0)
 			handle_err("./pipex: permission denied: ", file_name, 1);
+		else if (act == 1)
+			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		else if (act == 2)
+			fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	}
 	if (fd < 0)
-		handle_err("./pipex: no such file or directory: ", file_name, 127);
+		handle_err("./pipex: No such file or directory: ", file_name, 127);
 	return (fd);
 }
 
@@ -101,7 +106,7 @@ char	*path_check(char **cmd, char **env)
 		return (path);
 	else if (cmd[0][0] == '.' && cmd[0][1] == '/')
 	{
-		ft_putstr_fd("./pipex: permission denied: ", 2);
+		ft_putstr_fd("./pipex: Permission denied for file: ", 2);
 		ft_putendl_fd(path, 2);
 		free(path);
 		ft_free_arr(cmd);
@@ -109,7 +114,7 @@ char	*path_check(char **cmd, char **env)
 	}
 	else
 	{
-		ft_putstr_fd("./pipex: no such file or directory: ", 2);
+		ft_putstr_fd("./pipex: No such file or directory: ", 2);
 		ft_putendl_fd(path, 2);
 		free(path);
 		ft_free_arr(cmd);
